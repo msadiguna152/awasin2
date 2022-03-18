@@ -1,6 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require_once APPPATH . 'libraries/ApiResponseTrait.php';
 class Mizin extends CI_Model {
+	use ApiResponseTrait;
 	public function insert()
 	{
 		$config['upload_path'] = 'izin/';
@@ -98,5 +100,26 @@ class Mizin extends CI_Model {
 		$where = array('id_izin' => $id);
 		$query = $this->db->delete('izin',$where);
 		return $query;
+	}
+	public function getIzinByToken($token){
+		$user = $this->db->where("token",$token)->get('pengguna')->row();
+		$izin = $this->db->select("izin.*")->where('id_pegawai',$user->id_pegawai)->get("izin")->result();
+		return $izin;
+	}
+	public function getIzinById($id){
+		$izin = $this->db->select("izin.*")->where('id_izin',$id)->get("izin")->row();
+		return $izin;
+	}
+	public function updateIzin($id){
+		$request = $this->decodePost();
+		unset($request->token);
+		$this->db->where('id_izin',$id);
+		return $this->db->update('izin',$request);
+	}
+	public function storeLocation($izin_id){
+		$request = $this->decodePost();
+		unset($request->token);
+		$request->id_izin = $izin_id;
+		return $this->db->insert('lokasi',$request);
 	}
 }

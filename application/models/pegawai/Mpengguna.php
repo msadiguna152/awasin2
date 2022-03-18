@@ -1,7 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require_once APPPATH . 'libraries/ApiResponseTrait.php';
 class Mpengguna extends CI_Model {
-
+	use ApiResponseTrait;
 	public function get()
 	{
 		$id = $this->session->userdata('id_pegawai');
@@ -37,5 +38,32 @@ class Mpengguna extends CI_Model {
 		);
 		$where = array('id_pengguna' => $this->input->post('id_pengguna'));
 		$this->db->update('pengguna',$data,$where);
+	}
+	public function updatePassword($token){
+		$request = $this->decodePost();
+		unset($request->token);
+		$currentUser = $this->db->select('password')->where("token", $token)->get('pengguna')->row();
+		if($currentUser){
+			if(md5($request->current_password) === $currentUser->password){
+				$this->db->where("token", $token)->update("pengguna", ['password'=>md5($request->new_password)]);
+				return "Success";
+			}
+			else{
+				return "Wrong current password";
+			}
+		}
+		else{
+			return "User not found";
+		}
+	}
+	public function getUserByToken($token){
+		return $this->db->select('nama_pengguna,foto_pengguna,username')->where("token", $token)->get('pengguna')->row();
+	}
+	public function getUserByUsernameAndPassword($username,$password){
+		return $this->db->where("username", $username)->where('password',md5($password))->get('pengguna')->row();
+	}
+	public function updateToken($user_id,$newToken){
+		// TODO: deskripsi token md5(id_pengguna+nama_pengguna+username)
+		$this->db->where("id_pengguna", $user_id)->update("pengguna", ['token'=>$newToken]);
 	}
 }

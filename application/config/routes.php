@@ -50,5 +50,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'login';
+$route['api/login']["POST"] = 'api/auth/login';
+$route['api/current_user']["GET"] = 'api/auth/current_user';
+$route['api/change_password']["POST"] = 'api/auth/change_password';
+$route['api/izin']["GET"] = 'api/izin';
+$route['api/izin/(:any)']['GET'] = 'api/izin/get/$1';
+$route['api/izin/(:any)']['PUT'] = 'api/izin/update/$1';
+$route['api/location/(:any)']['POST'] = 'api/izin/store_location/$1';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
