@@ -24,7 +24,14 @@ trait ApiResponseTrait{
     function is_authenticated(){
         $this->authorized = $this->input->get("token") != null;
         if($this->input->get("token")){
-            $this->token = $this->input->get("token");
+            // TODO: check token is matched with database or not
+            $result = $this->db->where("token",$this->input->get("token"))->get('pengguna')->row();
+            if($result){
+                $this->token = $this->input->get("token");
+                return true;
+            }else{
+                $this->authorized = false;
+            }
         }
         // TODO: validate token access
         return $this->authorized;

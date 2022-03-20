@@ -13,7 +13,7 @@ class Auth extends CI_Controller{
             $this->Mpengguna->updateToken($currentUser->id_pengguna,md5($currentUser->id_pengguna.$currentUser->nama_pengguna.$currentUser->username));
             return $this->response(md5($currentUser->id_pengguna.$currentUser->nama_pengguna.$currentUser->username),"Login berhasil",true);
         }
-        return $this->response(null,"Login gagal",true);
+        return $this->response(null,"Login gagal",false);
     }
     public function current_user(){
         if(!$this->is_authenticated()){

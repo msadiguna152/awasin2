@@ -57,7 +57,7 @@ class Mpengguna extends CI_Model {
 		}
 	}
 	public function getUserByToken($token){
-		return $this->db->select('nama_pengguna,foto_pengguna,username')->where("token", $token)->get('pengguna')->row();
+		return $this->db->select('foto_pengguna,username,nama_pegawai,jenis_kelamin,CONCAT(tempat_lahir,", ",tanggal_lahir) as ttl')->join("pegawai","ON pegawai.id_pegawai = pengguna.id_pegawai")->where("token", $token)->get('pengguna')->row();
 	}
 	public function getUserByUsernameAndPassword($username,$password){
 		return $this->db->where("username", $username)->where('password',md5($password))->get('pengguna')->row();

@@ -103,16 +103,23 @@ class Mizin extends CI_Model {
 	}
 	public function getIzinByToken($token){
 		$user = $this->db->where("token",$token)->get('pengguna')->row();
-		$izin = $this->db->select("izin.*")->where('id_pegawai',$user->id_pegawai)->get("izin")->result();
-		return $izin;
+		$izin = $this->db->select("izin.*")->where('id_pegawai',$user->id_pegawai)->order_by('waktu_pengajuan','DESC')->get("izin")->result();
+		$filteredIzin = array_map(function($item){
+			$item->foto = base_url("izin/".$item->foto);
+			return $item;
+		},$izin);
+		return $filteredIzin;
 	}
 	public function getIzinById($id){
 		$izin = $this->db->select("izin.*")->where('id_izin',$id)->get("izin")->row();
+		$izin->foto = base_url("izin/".$izin->foto);
 		return $izin;
 	}
 	public function updateIzin($id){
 		$request = $this->decodePost();
 		unset($request->token);
+		unset($request->lokasi);
+		unset($request->foto);
 		$this->db->where('id_izin',$id);
 		return $this->db->update('izin',$request);
 	}
@@ -121,5 +128,8 @@ class Mizin extends CI_Model {
 		unset($request->token);
 		$request->id_izin = $izin_id;
 		return $this->db->insert('lokasi',$request);
+	}
+	public function getLokasiById($izin_id){
+		return $this->db->where("id_izin",$izin_id)->get('lokasi')->result();
 	}
 }

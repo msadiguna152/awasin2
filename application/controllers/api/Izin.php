@@ -18,6 +18,9 @@ class Izin extends CI_Controller {
     public function get($id){
             if($this->authorized){
                 $data = $this->Mizin->getIzinById($id);
+                if($this->input->get("with") && $this->input->get("with") == "lokasi"){
+                    $data->lokasi = $this->Mizin->getLokasiById($id);
+                }
                 $this->response($data,"Izin berhasil diambil",true);
             }
     }
