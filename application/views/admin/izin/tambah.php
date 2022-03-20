@@ -103,10 +103,10 @@
                       <div class="col-sm-8">
                         <select class="form-control select2" style="width: 100%;" id="" name="status_izin" data-placeholder="Pilih Status" required="">
                           <option value="">Pilih Status</option>
-                          <option value="0">Menunggu Tanggapan</option>
+                          <option value="Menunggu">Menunggu</option>
                           <option value="Diterima">Diterima</option>
                           <option value="Ditolak">Ditolak</option>
-
+                          <option value="Selesai">Selesai</option>
                         </select>
                       </div>
                     </div>
