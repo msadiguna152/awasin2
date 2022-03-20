@@ -1,6 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+require_once APPPATH . 'libraries/ApiResponseTrait.php';
 class Mizin extends CI_Model {
+	use ApiResponseTrait;
 	public function insert()
 	{
 		$config['upload_path'] = 'izin/';
@@ -98,5 +100,38 @@ class Mizin extends CI_Model {
 		$where = array('id_izin' => $id);
 		$query = $this->db->delete('izin',$where);
 		return $query;
+	}
+	public function getIzinByToken($token){
+		$user = $this->db->where("token",$token)->get('pengguna')->row();
+		$izin = $this->db->select("izin.*")->where('id_pegawai',$user->id_pegawai)->order_by('waktu_pengajuan','DESC')->get("izin")->result();
+		$filteredIzin = array_map(function($item){
+			$item->foto = base_url("izin/".$item->foto);
+			return $item;
+		},$izin);
+		return $filteredIzin;
+	}
+	public function getIzinById($id){
+		$izin = $this->db->select("izin.*")->where('id_izin',$id)->get("izin")->row();
+		$izin->foto = base_url("izin/".$izin->foto);
+		return $izin;
+	}
+	public function updateIzin($id){
+		$request = $this->decodePost();
+		unset($request->token);
+		unset($request->lokasi);
+		unset($request->foto);
+		unset($request->tanggal);
+		unset($request->waktu_pengajuan);
+		$this->db->where('id_izin',$id);
+		return $this->db->update('izin',$request);
+	}
+	public function storeLocation($izin_id){
+		$request = $this->decodePost();
+		unset($request->token);
+		$request->id_izin = $izin_id;
+		return $this->db->insert('lokasi',$request);
+	}
+	public function getLokasiById($izin_id){
+		return $this->db->where("id_izin",$izin_id)->get('lokasi')->result();
 	}
 }
