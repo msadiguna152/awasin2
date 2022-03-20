@@ -120,6 +120,8 @@ class Mizin extends CI_Model {
 		unset($request->token);
 		unset($request->lokasi);
 		unset($request->foto);
+		unset($request->tanggal);
+		unset($request->waktu_pengajuan);
 		$this->db->where('id_izin',$id);
 		return $this->db->update('izin',$request);
 	}

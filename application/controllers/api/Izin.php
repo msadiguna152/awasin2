@@ -12,7 +12,12 @@ class Izin extends CI_Controller {
     public function index(){
             if($this->authorized){
                 $data = $this->Mizin->getIzinByToken($this->token);
-                $this->response($data,"Izin berhasil diambil",true);
+                $changedData = array_map(function($item){
+                    $item->waktu_pengajuan = format_indo2($item->waktu_pengajuan);
+                    $item->tanggal = format_indo2($item->tanggal);
+                    return $item;
+                },$data);
+                $this->response($changedData,"Izin berhasil diambil",true);
             }
     }
     public function get($id){
@@ -21,6 +26,8 @@ class Izin extends CI_Controller {
                 if($this->input->get("with") && $this->input->get("with") == "lokasi"){
                     $data->lokasi = $this->Mizin->getLokasiById($id);
                 }
+                $data->waktu_pengajuan = format_indo2($data->waktu_pengajuan);
+                $data->tanggal = format_indo2($data->tanggal);
                 $this->response($data,"Izin berhasil diambil",true);
             }
     }
