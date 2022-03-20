@@ -103,9 +103,11 @@
                       <label for="" class="col-sm-2 col-form-label">Status</label>
                       <div class="col-sm-8">
                         <select class="form-control select2" style="width: 100%;" id="" name="status_izin" data-placeholder="Pilih Status" required="">
-                          <option <?= $data['status_izin']=="0"?'selected':'';?> value="0">Menunggu Tanggapan</option>
+                          <option <?= $data['status_izin']=="Menunggu"?'selected':'';?> value="0">Menunggu</option>
                           <option <?= $data['status_izin']=="Diterima"?'selected':'';?> value="Diterima">Diterima</option>
                           <option <?= $data['status_izin']=="Ditolak"?'selected':'';?> value="Ditolak">Ditolak</option>
+                          <option <?= $data['status_izin']=="Selesai"?'selected':'';?> value="Selesai">Selesai</option>
+
                         </select>
                       </div>
                     </div>

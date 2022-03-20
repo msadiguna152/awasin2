@@ -18,7 +18,7 @@ class Mizin extends CI_Model {
 			'tanggal'=> $this->input->post('tanggal'),
 			'dari'=> $this->input->post('dari'),
 			'sampai'=> $this->input->post('sampai'),
-			'status_izin'=> "0",
+			'status_izin'=> "Menunggu",
 			'id_pemberi_izin'=> $this->input->post('id_pemberi_izin'),
 
 		);

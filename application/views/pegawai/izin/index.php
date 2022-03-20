@@ -52,7 +52,7 @@
                       <td><?= $data->catatan; ?></td>
                       <td>
                         <?php
-                        if ($data->status_izin!="0") {
+                        if ($data->status_izin!="Menunggu") {
                           if ($data->status_izin=="Diterima") {
                             echo '<span class="badge badge-success">'.$data->status_izin.'</span>';
                           } else {

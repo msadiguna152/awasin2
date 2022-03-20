@@ -8,6 +8,9 @@ public function __construct() {
 
 		$this->load->model('pemberi_izin/Mberanda');
 
+		$this->load->model('pemberi_izin/Mberanda');
+		
+
 		if($this->session->userdata('level') != "Pemberi Izin"){
 			echo '<script language="javascript">alert("Tidak Dapat Diakses!"); document.location="'.site_url('Login').'"</script>';
 		}

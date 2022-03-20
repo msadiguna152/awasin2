@@ -57,13 +57,13 @@
 
                       <td>
                         <?php
-                        if ($data->status_izin!="0") {
+                        if ($data->status_izin!="Menunggu") {
                           if ($data->status_izin=="Diterima") {
                             echo '<span class="badge badge-success">'.$data->status_izin.'</span>';
                           } else {
                             echo '<span class="badge badge-danger">'.$data->status_izin.'</span>';
                           }
-                        } else if ($data->status_izin=="0"){
+                        } else if ($data->status_izin=="Menunggu"){
                           echo '<span class="badge badge-warning">Menunggu <br>Konfirmasi</span>';
                         }
                         ?>
